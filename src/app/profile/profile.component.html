@@ -1,0 +1,70 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">My Profile</h3>
+        <button class="btn btn-outline-primary btn-sm" *ngIf="!editMode" (click)="toggleEditMode(true)">
+          Edit Profile
+        </button>
+      </div>
+      <div class="card-body p-4">
+
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+        <!-- View Mode -->
+        <div *ngIf="!editMode && currentUser">
+          <div class="mb-3">
+            <label class="form-label text-muted">Customer ID</label>
+            <p class="form-control-plaintext">{{ currentUser.customerId }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Full Name</label>
+            <p class="form-control-plaintext">{{ currentUser.name }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Email Address</label>
+            <p class="form-control-plaintext">{{ currentUser.email }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Phone Number</label>
+            <p class="form-control-plaintext">{{ currentUser.phone }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-muted">Address</label>
+            <p class="form-control-plaintext">{{ currentUser.address }}</p>
+          </div>
+        </div>
+
+        <!-- Edit Mode -->
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" *ngIf="editMode && currentUser">
+          <div class="mb-3">
+            <label class="form-label text-muted">Customer ID</label>
+            <input type="text" class="form-control" [value]="currentUser.customerId" readonly disabled>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name">
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" class="form-control" formControlName="email">
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" id="phone" class="form-control" formControlName="phone">
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <textarea id="address" class="form-control" formControlName="address" rows="3"></textarea>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid || !profileForm.dirty">Save Changes</button>
+            <button type="button" class="btn btn-secondary ms-2" (click)="toggleEditMode(false)">Cancel</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+.product-card .card-title {
+  font-weight: 600;
+  color: var(--dark-color);
+}
+
+.product-card .badge {
+  font-size: 0.8rem;
+  padding: 0.4em 0.8em;
+}

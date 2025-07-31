@@ -1,0 +1,52 @@
+<div class="card shadow-sm">
+  <div class="card-header">
+    <h2 class="mb-0">Shopping Cart</h2>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div *ngIf="cartItems.length > 0; else emptyCart">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th class="text-center">Quantity</th>
+              <th class="text-end">Total</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cartItems">
+              <td>{{ item.product.name }}</td>
+              <td>{{ item.product.price | currency }}</td>
+              <td class="text-center">
+                <div class="input-group justify-content-center" style="width: 120px;">
+                  <button class="btn btn-outline-secondary" type="button" (click)="decreaseQuantity(item.id)">-</button>
+                  <span class="form-control text-center">{{ item.quantity }}</span>
+                  <!-- *** THIS IS THE FIX *** -->
+                  <!-- The click handler now passes item.id, just like the decrease button -->
+                  <button class="btn btn-outline-secondary" type="button" (click)="increaseQuantity(item.id)">+</button>
+                </div>
+              </td>
+              <td class="text-end">{{ (item.product.price * item.quantity) | currency }}</td>
+              <td class="text-center">
+                <button class="btn btn-danger btn-sm" (click)="removeItem(item.id)">Remove</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-end mt-4">
+        <h3>Total: <span class="fw-bold text-primary">{{ total | currency }}</span></h3>
+        <button class="btn btn-success btn-lg" (click)="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+    <ng-template #emptyCart>
+      <div class="text-center py-5">
+        <h4>Your cart is empty.</h4>
+        <p class="text-muted">Add some items from the home page to get started!</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
